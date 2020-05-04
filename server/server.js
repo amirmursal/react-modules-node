@@ -2,9 +2,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const User = require("./models/user");
 
-const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const env = "local"; // prod local
-
+const JWT_SECRET = "addjsonwebtokensecretherelikeQuiscustodietipsoscustodes";
 const dburl =
   env === "prod"
     ? "mongodb://admin:admin123@ds033390.mlab.com:33390/rafael"
@@ -45,7 +45,11 @@ router.post("/login", (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
     if (err) res.send(err);
     if (user && user.password === req.body.password) {
-      res.json(user);
+      // Create a token
+      const payload = { user: user.username };
+      const options = { expiresIn: "1d", issuer: "https://scotch.io" };
+      const token = jwt.sign(payload, JWT_SECRET, options);
+      res.json(token);
     } else {
       res.json(err);
     }
@@ -107,9 +111,5 @@ router.get("/getUsers", (req, res) => {
 });
 
 app.listen(PORT, function () {
-  console.error(
-    `Node ${
-      isDev ? "dev server" : "cluster worker " + process.pid
-    }: listening on port ${PORT}`
-  );
+  console.error(`Node server listening on port ${PORT}`);
 });

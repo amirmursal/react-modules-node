@@ -22,7 +22,7 @@
 #login .login-card .content {
   padding: 3rem 2.5rem 5rem;
 }
-#login .login-card #username,
+#login .login-card #email,
 #login .login-card #password {
   display: block;
   width: 100%;

@@ -24,7 +24,7 @@ export default class Login extends React.Component {
   login = () => {
     const { username, password } = this.state;
     const { history } = this.props;
-    console.log(this.state);
+
     const user = {
       username: username,
       password: password,
@@ -38,6 +38,7 @@ export default class Login extends React.Component {
         });
         if (response.data !== null) {
           localStorage.setItem("loggedIn", JSON.stringify(response.data));
+          console.log(response.data);
         } else {
           this.setState({
             username: "",
@@ -68,10 +69,10 @@ export default class Login extends React.Component {
 
           <div className="content">
             <input
-              id="username"
-              type="text"
+              id="email"
+              type="email"
               name="username"
-              placeholder="Username"
+              placeholder="Email"
               onChange={(event) => this.handleChange(event)}
               tabIndex="1"
             />
