@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 export default class Login extends React.Component {
@@ -23,7 +24,7 @@ export default class Login extends React.Component {
   login = () => {
     const { username, password } = this.state;
     const { history } = this.props;
-
+    console.log(this.state);
     const user = {
       username: username,
       password: password,
@@ -62,7 +63,7 @@ export default class Login extends React.Component {
       <div id="login">
         <div className="login-card">
           <div className="card-title">
-            <h1>Rafael</h1>
+            <h1>Login</h1>
           </div>
 
           <div className="content">
@@ -82,24 +83,29 @@ export default class Login extends React.Component {
               onChange={(event) => this.handleChange(event)}
               tabIndex="2"
             />
+            <div className="form-group">
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => this.login()}
+                disabled={isDisable}
+                tabIndex="3"
+              >
+                Login
+              </button>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={() => this.login()}
-              disabled={isDisable}
-              tabIndex="3"
-            >
-              Login
-            </button>
-
-            {this.state.error && (
-              <footer className="card-footer">
+              {this.state.error && (
                 <label className="card-footer-item">
                   Credentials are incorrect
                 </label>
-              </footer>
-            )}
+              )}
+            </div>
+
+            <div className="form-group">
+              <Link to="/register">Register</Link>
+              <Link to="/forgotpassword" className="forgotpwd">
+                Forgot Password
+              </Link>
+            </div>
           </div>
         </div>
       </div>

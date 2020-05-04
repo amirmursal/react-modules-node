@@ -43,9 +43,7 @@
 #login .login-card #password:focus {
   border-color: #00d1b2;
 }
-#login .login-card a {
-  font-size: 0.8rem;
-}
+
 #login .login-card .options {
   color: #b5b5b5;
   margin-bottom: 1.5rem;
@@ -53,11 +51,12 @@
 
 label {
   color: #ff3860;
+  margin-left: 50px;
 }
 
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
+input:focus {
   outline: none;
+}
+.forgotpwd {
+  float: right;
 }
