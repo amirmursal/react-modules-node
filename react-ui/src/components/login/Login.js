@@ -70,8 +70,6 @@ export default class Login extends React.Component {
               id="username"
               type="text"
               name="username"
-              title="username"
-              value={this.state.username}
               placeholder="Username"
               onChange={(event) => this.handleChange(event)}
               tabIndex="1"
@@ -80,25 +78,21 @@ export default class Login extends React.Component {
               id="password"
               type="password"
               name="password"
-              title="password"
-              value={this.state.password}
               placeholder="Password"
               onChange={(event) => this.handleChange(event)}
               tabIndex="2"
             />
-            <UserConsumer>
-              {({ setUser }) => (
-                <button
-                  type="submit"
-                  className="button is-primary is-medium is-fullwidth"
-                  onClick={() => this.login(setUser)}
-                  disabled={isDisable}
-                  tabIndex="3"
-                >
-                  Login
-                </button>
-              )}
-            </UserConsumer>
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={() => this.login()}
+              disabled={isDisable}
+              tabIndex="3"
+            >
+              Login
+            </button>
+
             {this.state.error && (
               <footer className="card-footer">
                 <label className="card-footer-item">
