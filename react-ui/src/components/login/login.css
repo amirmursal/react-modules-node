@@ -49,11 +49,15 @@
   margin-bottom: 1.5rem;
 }
 
-label {
+.danger {
   color: #ff3860;
   margin-left: 50px;
 }
 
+.success {
+  color: #5cb85c;
+  margin-left: 50px;
+}
 input:focus {
   outline: none;
 }

@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
 const User = require("./models/user");
 
 const PORT = process.env.PORT || 5000;
@@ -50,6 +52,42 @@ router.post("/login", (req, res) => {
       const options = { expiresIn: "1d", issuer: "https://scotch.io" };
       const token = jwt.sign(payload, JWT_SECRET, options);
       res.json(token);
+    } else {
+      res.json(err);
+    }
+  });
+});
+
+// forgot password user
+router.post("/getPassword", (req, res) => {
+  // auth
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "amirthink72@gmail.com",
+      pass: "amirarshin",
+    },
+  });
+  User.findOne({ username: req.body.username }, (err, user) => {
+    if (err) res.send(err);
+    if (user && user.username === req.body.username) {
+      const mailOptions = {
+        from: "amirthink72@gmail.com", // sender address
+        to: user.username, // list of receivers
+        subject: "Account Password", // Subject line
+        html:
+          "<div> Hi, <br/> Your account passowrd is <b>" +
+          user.password +
+          "</b> </div>", // html body
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+          res.json(user);
+        }
+      });
     } else {
       res.json(err);
     }

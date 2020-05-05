@@ -6,6 +6,7 @@ export default class ForgotPassword extends React.Component {
     super(props);
     this.state = {
       username: "",
+      message: null,
       error: false,
     };
   }
@@ -31,7 +32,10 @@ export default class ForgotPassword extends React.Component {
           username: "",
         });
         if (response.data !== null) {
-          console.log(response.data);
+          this.setState({
+            message: "Please check you email",
+            error: false,
+          });
         } else {
           this.setState({
             username: "",
@@ -43,6 +47,7 @@ export default class ForgotPassword extends React.Component {
         this.setState({
           username: "",
           error: true,
+          message: null,
         });
         console.log(error);
       });
@@ -79,9 +84,10 @@ export default class ForgotPassword extends React.Component {
               </button>
 
               {this.state.error && (
-                <label className="card-footer-item">
-                  username are incorrect
-                </label>
+                <label className="danger">username are incorrect</label>
+              )}
+              {this.state.message && (
+                <label className="success">{this.state.message}</label>
               )}
             </div>
           </div>
