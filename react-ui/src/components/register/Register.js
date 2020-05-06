@@ -7,6 +7,8 @@ export default class Register extends React.Component {
     this.state = {
       email: "",
       company: "",
+      password: "",
+      message: null,
       error: false,
     };
   }
@@ -18,36 +20,40 @@ export default class Register extends React.Component {
     });
   };
 
-  // login user
+  // register user
   register = () => {
-    const { email, company } = this.state;
+    const { email, company, password } = this.state;
     const { history } = this.props;
 
     const user = {
       email: email,
       company: company,
+      password: password,
     };
     axios
       .post("/api/register", user)
       .then((response) => {
-        this.setState({
-          email: "",
-          password: "",
-        });
         if (response.data !== null) {
           console.log(response.data);
+          this.setState({
+            email: "",
+            company: "",
+            password: "",
+            message: "User Created Successfully",
+            error: false,
+          });
         } else {
           this.setState({
             email: "",
             company: "",
+            password: "",
+            message: null,
             error: true,
           });
         }
       })
       .catch((error) => {
         this.setState({
-          email: "",
-          company: "",
           error: true,
         });
         console.log(error);
@@ -55,8 +61,8 @@ export default class Register extends React.Component {
   };
 
   render() {
-    const { email, company } = this.state;
-    const isDisable = !email || !company;
+    const { email, company, password } = this.state;
+    const isDisable = !email || !company || !password;
     return (
       <div id="register">
         <div className="login-card">
@@ -149,6 +155,7 @@ export default class Register extends React.Component {
               type="password"
               name="password"
               placeholder="Password"
+              value={password}
               onChange={(event) => this.handleChange(event)}
               tabIndex="11"
             />
@@ -170,9 +177,10 @@ export default class Register extends React.Component {
               </button>
 
               {this.state.error && (
-                <label className="card-footer-item">
-                  Credentials are incorrect
-                </label>
+                <label className="danger">Credentials are incorrect</label>
+              )}
+              {this.state.message && (
+                <label className="success">{this.state.message}</label>
               )}
             </div>
           </div>

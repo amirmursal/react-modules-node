@@ -66,7 +66,7 @@ router.post("/getPassword", (req, res) => {
     service: "gmail",
     auth: {
       user: "amirthink72@gmail.com",
-      pass: "amirarshin",
+      pass: "amirisreact",
     },
   });
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -95,14 +95,12 @@ router.post("/getPassword", (req, res) => {
   });
 });
 
-// create user
-router.post("/createUser", (req, res) => {
+// register user
+router.post("/register", (req, res) => {
   const user = new User();
-  user.name = req.body.name;
-  user.username = req.body.username;
-  user.password = req.body.password;
   user.email = req.body.email;
-  user.role = req.body.role;
+  user.password = req.body.password;
+  user.company = req.body.company;
   user.save((err) => {
     if (err) res.send(err);
     res.json({ message: "User Created" });
