@@ -5,7 +5,7 @@ export default class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       message: null,
       error: false,
     };
@@ -20,32 +20,33 @@ export default class ForgotPassword extends React.Component {
 
   // login user
   getPassword = () => {
-    const { username } = this.state;
+    const { email } = this.state;
 
     const user = {
-      username: username,
+      email: email,
     };
     axios
       .post("/api/getPassword", user)
       .then((response) => {
         this.setState({
-          username: "",
+          email: "",
         });
         if (response.data !== null) {
           this.setState({
+            email: "",
             message: "Please check you email",
             error: false,
           });
         } else {
           this.setState({
-            username: "",
+            email: "",
             error: true,
           });
         }
       })
       .catch((error) => {
         this.setState({
-          username: "",
+          email: "",
           error: true,
           message: null,
         });
@@ -54,7 +55,7 @@ export default class ForgotPassword extends React.Component {
   };
 
   render() {
-    const { username } = this.state;
+    const { email } = this.state;
 
     return (
       <div id="login">
@@ -67,7 +68,8 @@ export default class ForgotPassword extends React.Component {
             <input
               id="email"
               type="email"
-              name="username"
+              name="email"
+              value={email}
               placeholder="Email"
               onChange={(event) => this.handleChange(event)}
               tabIndex="1"
@@ -77,7 +79,7 @@ export default class ForgotPassword extends React.Component {
               <button
                 className="btn btn-primary btn-sm"
                 onClick={() => this.getPassword()}
-                disabled={!username}
+                disabled={!email}
                 tabIndex="3"
               >
                 Send

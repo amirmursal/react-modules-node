@@ -1,28 +1,27 @@
-#login {
+#register {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   background: #f7f7f7;
 }
-#login .login-card {
+#register .login-card {
   background: #fff;
   width: 24rem;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.11);
 }
-#login .login-card .card-title {
+#register .login-card .card-title {
   background-color: #00b89c;
   padding: 2rem;
 }
-#login .login-card .card-title h1 {
+#register .login-card .card-title h1 {
   color: #fff;
   text-align: center;
   font-size: 1.2rem;
 }
-#login .login-card .content {
+#register .login-card .content {
   padding: 3rem 2.5rem 5rem;
 }
-#login .login-card input,
+#register .login-card input,
 select {
   display: block;
   width: 100%;
@@ -33,15 +32,15 @@ select {
   border-bottom: 1px solid #dbdbdb;
   transition: all 0.5s;
 }
-#login .login-card input:hover {
+#register .login-card input:hover {
   border-color: #7a7a7a;
 }
-#login .login-card input:active,
-#login .login-card input:focus {
+#register .login-card input:active,
+#register .login-card input:focus {
   border-color: #00d1b2;
 }
 
-#login .login-card .options {
+#register .login-card .options {
   color: #b5b5b5;
   margin-bottom: 1.5rem;
 }

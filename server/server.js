@@ -44,11 +44,12 @@ app.get("*", function (request, response) {
 
 // login user
 router.post("/login", (req, res) => {
-  User.findOne({ username: req.body.username }, (err, user) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
     if (err) res.send(err);
+    console.log(user);
     if (user && user.password === req.body.password) {
       // Create a token
-      const payload = { user: user.username };
+      const payload = { user: user.email };
       const options = { expiresIn: "1d", issuer: "https://scotch.io" };
       const token = jwt.sign(payload, JWT_SECRET, options);
       res.json(token);
@@ -68,12 +69,12 @@ router.post("/getPassword", (req, res) => {
       pass: "amirarshin",
     },
   });
-  User.findOne({ username: req.body.username }, (err, user) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
     if (err) res.send(err);
-    if (user && user.username === req.body.username) {
+    if (user && user.email === req.body.email) {
       const mailOptions = {
         from: "amirthink72@gmail.com", // sender address
-        to: user.username, // list of receivers
+        to: user.email, // receiver address
         subject: "Account Password", // Subject line
         html:
           "<div> Hi, <br/> Your account passowrd is <b>" +

@@ -2,13 +2,13 @@ import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./login.css";
-
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
+      message: null,
       error: false,
     };
   }
@@ -22,35 +22,39 @@ export default class Login extends React.Component {
 
   // login user
   login = () => {
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     const { history } = this.props;
 
     const user = {
-      username: username,
+      email: email,
       password: password,
     };
     axios
       .post("/api/login", user)
       .then((response) => {
-        this.setState({
-          username: "",
-          password: "",
-        });
         if (response.data !== null) {
           localStorage.setItem("loggedIn", JSON.stringify(response.data));
           console.log(response.data);
+          this.setState({
+            email: "",
+            password: "",
+            message: "Token generated",
+            error: false,
+          });
         } else {
           this.setState({
-            username: "",
+            email: "",
             password: "",
+            message: null,
             error: true,
           });
         }
       })
       .catch((error) => {
         this.setState({
-          username: "",
+          email: "",
           password: "",
+          message: null,
           error: true,
         });
         console.log(error);
@@ -58,8 +62,8 @@ export default class Login extends React.Component {
   };
 
   render() {
-    const { username, password } = this.state;
-    const isDisable = !username || !password;
+    const { email, password } = this.state;
+    const isDisable = !email || !password;
     return (
       <div id="login">
         <div className="login-card">
@@ -71,7 +75,8 @@ export default class Login extends React.Component {
             <input
               id="email"
               type="email"
-              name="username"
+              name="email"
+              value={email}
               placeholder="Email"
               onChange={(event) => this.handleChange(event)}
               tabIndex="1"
@@ -80,6 +85,7 @@ export default class Login extends React.Component {
               id="password"
               type="password"
               name="password"
+              value={password}
               placeholder="Password"
               onChange={(event) => this.handleChange(event)}
               tabIndex="2"
@@ -95,9 +101,10 @@ export default class Login extends React.Component {
               </button>
 
               {this.state.error && (
-                <label className="card-footer-item">
-                  Credentials are incorrect
-                </label>
+                <label className="danger">Credentials are incorrect</label>
+              )}
+              {this.state.message && (
+                <label className="success"> {this.state.message}</label>
               )}
             </div>
 
