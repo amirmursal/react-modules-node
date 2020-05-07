@@ -97,22 +97,32 @@ router.post("/getPassword", (req, res) => {
 
 // register user
 router.post("/register", (req, res) => {
-  const user = new User();
-  user.email = req.body.email;
-  user.company = req.body.company;
-  user.firstname = req.body.firstname;
-  user.lastname = req.body.lastname;
-  user.address1 = req.body.address1;
-  user.address2 = req.body.address2;
-  user.country = req.body.country;
-  user.state = req.body.state;
-  user.postcode = req.body.postcode;
-  user.phone = req.body.phone;
-  user.password = req.body.password;
-  user.save((err) => {
-    if (err) res.send(err);
-    res.json({ message: "User Created" });
-  });
+  User.findOne(
+    { $or: [{ email: req.body.email }, { phone: req.body.phone }] },
+    (err, user) => {
+      if (err) res.send(err);
+      if (user !== null) {
+        res.json({ message: "User already exists" });
+      } else {
+        const user = new User();
+        user.email = req.body.email;
+        user.company = req.body.company;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.address1 = req.body.address1;
+        user.address2 = req.body.address2;
+        user.country = req.body.country;
+        user.state = req.body.state;
+        user.postcode = req.body.postcode;
+        user.phone = req.body.phone;
+        user.password = req.body.password;
+        user.save((err) => {
+          if (err) res.send(err);
+          res.json({ message: "User Created" });
+        });
+      }
+    }
+  );
 });
 
 // get user info

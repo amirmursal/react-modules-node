@@ -158,7 +158,7 @@ export default class Register extends React.Component {
               phone: "",
               password: "",
               confirmPassword: "",
-              message: "User Created Successfully",
+              message: response.data.message,
               error: false,
               errors: {},
             });
@@ -200,6 +200,7 @@ export default class Register extends React.Component {
       !phone ||
       !password ||
       !confirmPassword;
+
     return (
       <div id="register">
         <div className="login-card">
