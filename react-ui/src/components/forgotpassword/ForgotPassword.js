@@ -40,6 +40,7 @@ export default class ForgotPassword extends React.Component {
         } else {
           this.setState({
             email: "",
+            message: null,
             error: true,
           });
         }
