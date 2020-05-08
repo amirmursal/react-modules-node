@@ -11,8 +11,8 @@ export default class Register extends React.Component {
       lastname: "",
       address1: "",
       address2: "",
-      country: "india",
-      state: "mh",
+      country: "India",
+      state: "Maharashtra",
       postcode: "",
       phone: "",
       password: "",
@@ -20,6 +20,16 @@ export default class Register extends React.Component {
       message: null,
       error: false,
       errors: {},
+      countries: [
+        {
+          name: "India",
+          states: ["Maharashtra", "Kerla"],
+        },
+        {
+          name: "USA",
+          states: ["Albama", "Chicago"],
+        },
+      ],
     };
   }
 
@@ -56,7 +66,11 @@ export default class Register extends React.Component {
 
     // Company name validation
     if (typeof fields["company"] !== "undefined") {
-      if (!fields["company"].match(/^[a-zA-Z]+$/)) {
+      if (
+        !fields["company"].match(/[a-z ]/) ||
+        fields["company"].trim() === "" ||
+        fields["company"].length < 10
+      ) {
         formIsValid = false;
         errors["company"] = "Only letters";
       }
@@ -74,7 +88,7 @@ export default class Register extends React.Component {
     if (typeof fields["lastname"] !== "undefined") {
       if (!fields["lastname"].match(/^[a-zA-Z]+$/)) {
         formIsValid = false;
-        errors["lastname"] = "Only letters";
+        errors["lastname"] = "Not valid text";
       }
     }
 
@@ -152,8 +166,8 @@ export default class Register extends React.Component {
               lastname: "",
               address1: "",
               address2: "",
-              country: "india",
-              state: "mh",
+              country: "India",
+              state: "Maharashtra",
               postcode: "",
               phone: "",
               password: "",
@@ -170,8 +184,6 @@ export default class Register extends React.Component {
           });
           console.log(error);
         });
-    } else {
-      alert("Form has errors.");
     }
   };
 
@@ -189,6 +201,7 @@ export default class Register extends React.Component {
       phone,
       password,
       confirmPassword,
+      countries,
     } = this.state;
     const isDisable =
       !email ||
@@ -201,6 +214,23 @@ export default class Register extends React.Component {
       !password ||
       !confirmPassword;
 
+    const getMajorMethod = () => {
+      const view = countries.filter(({ name }) => name === country)[0];
+      return (
+        <div>
+          <select
+            value={state}
+            name="state"
+            tabIndex="8"
+            onChange={(event) => this.handleChange(event)}
+          >
+            {view.states.map((state) => (
+              <option value={state}>{state}</option>
+            ))}
+          </select>
+        </div>
+      );
+    };
     return (
       <div id="register">
         <div className="login-card">
@@ -232,7 +262,7 @@ export default class Register extends React.Component {
                 tabIndex="2"
               />
               {this.state.errors["company"] && (
-                <label className="error">Number not allowed</label>
+                <label className="error">Not valid text</label>
               )}
             </div>
             <div className="form-group">
@@ -245,7 +275,7 @@ export default class Register extends React.Component {
                 tabIndex="3"
               />
               {this.state.errors["firstname"] && (
-                <label className="error">Number not allowed</label>
+                <label className="error">Not valid text</label>
               )}
             </div>
             <div className="form-group">
@@ -258,7 +288,7 @@ export default class Register extends React.Component {
                 tabIndex="4"
               />
               {this.state.errors["lastname"] && (
-                <label className="error">Number not allowed</label>
+                <label className="error">Not valid text</label>
               )}
             </div>
             <div className="form-group">
@@ -290,21 +320,12 @@ export default class Register extends React.Component {
                 tabIndex="7"
                 onChange={(event) => this.handleChange(event)}
               >
-                <option value="india">India</option>
-                <option value="usa">USA</option>
+                {countries.map(({ name }) => (
+                  <option value={name}>{name}</option>
+                ))}
               </select>
             </div>
-            <div className="form-group">
-              <select
-                value={state}
-                name="state"
-                tabIndex="8"
-                onChange={(event) => this.handleChange(event)}
-              >
-                <option value="mh">MH</option>
-                <option value="up">UP</option>
-              </select>
-            </div>
+            <div className="form-group">{getMajorMethod()}</div>
             <div className="form-group">
               <input
                 type="text"
