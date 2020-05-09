@@ -44,19 +44,22 @@ app.get("*", function (request, response) {
 
 // login user
 router.post("/login", (req, res) => {
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (err) res.send(err);
-    console.log(user);
-    if (user && user.password === req.body.password) {
-      // Create a token
-      const payload = { user: user.email };
-      const options = { expiresIn: "1d", issuer: "https://scotch.io" };
-      const token = jwt.sign(payload, JWT_SECRET, options);
-      res.json(token);
-    } else {
-      res.json(err);
+  User.findOne(
+    { $or: [{ email: req.body.email }, { phone: req.body.email }] },
+    (err, user) => {
+      if (err) res.send(err);
+      console.log(user);
+      if (user && user.password === req.body.password) {
+        // Create a token
+        const payload = { user: user.email };
+        const options = { expiresIn: "1d", issuer: "https://scotch.io" };
+        const token = jwt.sign(payload, JWT_SECRET, options);
+        res.json(token);
+      } else {
+        res.json(err);
+      }
     }
-  });
+  );
 });
 
 // forgot password user
@@ -130,38 +133,6 @@ router.get("/getUser/:user_id", (req, res) => {
   User.findById(req.params.user_id, (err, user) => {
     if (err) res.send(err);
     res.json(user);
-  });
-});
-
-// update user info
-router.put("/updateUser/:user_id", (req, res) => {
-  User.findById(req.params.user_id, (err, user) => {
-    if (err) res.send(err);
-    user.name = req.body.name;
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.email = req.body.email;
-    user.role = req.body.role;
-    user.save((err) => {
-      if (err) res.send(err);
-      res.json({ message: "User Updated" });
-    });
-  });
-});
-
-// delete user
-router.delete("/deleteUser/:user_id", (req, res) => {
-  User.remove({ _id: req.params.user_id }, (err, user) => {
-    if (err) res.send(err);
-    res.json({ message: "User Removed" });
-  });
-});
-
-// get all users
-router.get("/getUsers", (req, res) => {
-  User.find((err, users) => {
-    if (err) res.send(err);
-    res.json(users);
   });
 });
 

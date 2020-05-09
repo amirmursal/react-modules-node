@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   country: String,
   state: String,
   postcode: Number,
-  phone: Number,
+  phone: String,
   password: String,
 });
 

@@ -23,8 +23,6 @@ export default class Login extends React.Component {
   // login user
   login = () => {
     const { email, password } = this.state;
-    const { history } = this.props;
-
     const user = {
       email: email,
       password: password,
@@ -74,10 +72,10 @@ export default class Login extends React.Component {
           <div className="content">
             <input
               id="email"
-              type="email"
+              type="text"
               name="email"
               value={email}
-              placeholder="Email"
+              placeholder="Email / Phone"
               onChange={(event) => this.handleChange(event)}
               tabIndex="1"
             />

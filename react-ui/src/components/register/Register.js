@@ -139,7 +139,6 @@ export default class Register extends React.Component {
         phone,
         password,
       } = this.state;
-      const { history } = this.props;
 
       const user = {
         email: email,
@@ -331,7 +330,7 @@ export default class Register extends React.Component {
                 type="text"
                 name="postcode"
                 value={postcode}
-                placeholder="Post Code"
+                placeholder="Post Code *"
                 onChange={(event) => this.handleChange(event)}
                 tabIndex="9"
                 maxLength="6"
@@ -345,7 +344,7 @@ export default class Register extends React.Component {
                 type="text"
                 name="phone"
                 value={phone}
-                placeholder="Phone Number"
+                placeholder="Phone Number *"
                 onChange={(event) => this.handleChange(event)}
                 tabIndex="10"
                 maxLength="10"
@@ -358,7 +357,7 @@ export default class Register extends React.Component {
               <input
                 type="password"
                 name="password"
-                placeholder="Password"
+                placeholder="Password *"
                 value={password}
                 onChange={(event) => this.handleChange(event)}
                 tabIndex="11"
@@ -369,7 +368,7 @@ export default class Register extends React.Component {
                 type="password"
                 name="confirmPassword"
                 value={confirmPassword}
-                placeholder="Confirm Password"
+                placeholder="Confirm Password *"
                 onChange={(event) => this.handleChange(event)}
                 tabIndex="12"
               />
